@@ -22,7 +22,7 @@ BTN_STOP3 = 18
 def btn_push(id):
     request.set_value(id,BUTTON_PUSH);
     time.sleep(1);
-    request.set_value(id,BUTTON_PUSH);
+    request.set_value(id,BUTTON_RELEASE);
 
 @sio.event
 async def connect():
@@ -44,7 +44,12 @@ async def on_event(data):
         btn_push(BTN_SPIN)
     if(data["event"] == "stopSpin"):
         print("Got StopSpin %s"% data["data"]["button"])
-        btn_push(BTN_STOP1)
+        if(data["data"]["button"] == "1"):
+            btn_push(BTN_STOP1)
+        else if (data["data"]["button"] == "1"):
+            btn_push(BTN_STOP2)
+        else:
+            btn_push(BTN_STOP3)
 
 @sio.on('broadcast', namespace='/slot')
 async def on_broadcast(data):
