@@ -46,7 +46,7 @@ async def on_event(data):
         print("Got StopSpin %s"% data["data"]["button"])
         if(data["data"]["button"] == "1"):
             btn_push(BTN_STOP1)
-        else if (data["data"]["button"] == "1"):
+        elif (data["data"]["button"] == "1"):
             btn_push(BTN_STOP2)
         else:
             btn_push(BTN_STOP3)
