@@ -91,12 +91,12 @@ if __name__ == '__main__':
 
     while(1):
         btn_push(BTN_BET)
-        sleep(0.75)
+        time.sleep(0.75)
         btn_push(BTN_SPIN)
-        sleep(0.75)
+        time.sleep(0.75)
         btn_push(BTN_STOP1)
-        sleep(0.75)
+        time.sleep(0.75)
         btn_push(BTN_STOP2)
-        sleep(0.75)
+        time.sleep(0.75)
         btn_push(BTN_STOP3)
-        sleep(0.75)
+        time.sleep(0.75)
