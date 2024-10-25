@@ -4,6 +4,8 @@ import gpiod
 import time
 from gpiod.line import Direction, Value
 
+machineId=2
+
 sio = socketio.AsyncClient()
 
 value = Value.INACTIVE
@@ -28,7 +30,7 @@ def btn_push(id):
 @sio.event
 async def connect():
     print('connection established')
-    await sio.emit('join-room', {'machine_id': 1}, namespace='/slot')
+    await sio.emit('join-room', {'machine_id': 2}, namespace='/slot')
 
 @sio.event
 async def disconnect(sid):
@@ -37,22 +39,23 @@ async def disconnect(sid):
 @sio.on('event', namespace='/slot')
 async def on_event(data):
     print('event ', data)
-    if(data["event"] == "bet"):
-        print("Got Bet")
-        btn_push(BTN_BET)
-    if(data["event"] == "spin"):
-        print("Got Spin")
-        btn_push(BTN_SPIN)
-    if(data["event"] == "stopSpin"):
-        print("Got StopSpin %s"% data["data"]["button"])
-        if(data["data"]["button"] == "1"):
-            btn_push(BTN_STOP1)
-        elif (data["data"]["button"] == "2"):
-            btn_push(BTN_STOP2)
-        elif (data["data"]["button"] == "3"):
-            btn_push(BTN_STOP3)
-        else:
-            print("No Support")
+    if(int(data["data"]["machine_id"]) == machineId):
+        if(data["event"] == "bet"):
+            print("Got Bet")
+            btn_push(BTN_BET)
+        if(data["event"] == "spin"):
+            print("Got Spin")
+            btn_push(BTN_SPIN)
+        if(data["event"] == "stopSpin"):
+            print("Got StopSpin %s"% data["data"]["button"])
+            if(data["data"]["button"] == "1"):
+                btn_push(BTN_STOP1)
+            elif (data["data"]["button"] == "2"):
+                btn_push(BTN_STOP2)
+            elif (data["data"]["button"] == "3"):
+                btn_push(BTN_STOP3)
+            else:
+                print("No Support")
 
 
 @sio.on('broadcast', namespace='/slot')
